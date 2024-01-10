@@ -160,7 +160,7 @@ const Login = () => {
                     The information collected by Google reCAPTCHA is subject to the Google
                     <Link to=""
                         className="text-[#0071eb] hover:underline">
-                        Privacy Policy
+                        Privacy
                     </Link> and
                     <Link to=""
                         className="text-[#0071eb] hover:underline">Terms of Service,
