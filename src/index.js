@@ -24,37 +24,42 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Brows from "./components/Brows";
 import Error from "./components/Error";
+import { Provider } from "react-redux";
+import appstore from "./utils/appstore";
 
 
-const Body = ()=>{
-  return(
-    <div>
-      <header>
-        <Header/>
-      </header>
-      <main>
-        < Outlet/>
-      </main>
-    </div>
+const Body = () => {
+
+  return (
+    <Provider store={appstore}>
+      <div>
+        <header>
+          <Header />
+        </header>
+        <main>
+          < Outlet />
+        </main>
+      </div>
+    </Provider>
   )
 }
- 
+
 const appRouter = createBrowserRouter([{
   path: "/",
-  element: <Body/>,
-  children:[
+  element: <Body />,
+  children: [
     {
       path: "/",
-      element: <Login/>,
+      element: <Login />,
     },
     {
       path: "/brows",
-      element: <Brows/>,
+      element: <Brows />,
     }
   ],
-    errorElement: <Error/>
-  
+  errorElement: <Error />
+
 }]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={appRouter}/>)
+root.render(<RouterProvider router={appRouter} />)

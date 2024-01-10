@@ -1,8 +1,10 @@
 
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { Image_URL } from "../utils/Image";
-import { useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { handleName, handlePassword } from "../utils/validate";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 
 const Login = () => {
@@ -12,6 +14,7 @@ const Login = () => {
     const [nameError, setNameError] = useState(null);
     const [passwordError, setPasswordError] = useState(null);
     const name = useRef("Sachin");
+    const email = useRef(null);
     const password = useRef(null);
 
     const handleForm = () => {
@@ -24,7 +27,50 @@ const Login = () => {
         const itm2 = handlePassword(password.current.value);
         setPasswordError(itm2);
 
+        // craete authentication.......
+
+        // sign up and sign in logic.....
+        if (isSignInForm) {
+            if (itm) return;
+            if (itm2) return;
+
+            createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+                .then((userCredential) => {
+                    // Signed up 
+                    const user = userCredential.user;
+                    // console.log(user)
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setPasswordError(errorMessage);
+                    console.log(errorCode + errorMessage);
+                    // ..
+                });
+        }
+        else {
+            if (itm2) return;
+
+            signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // console.log(user);
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setPasswordError(errorMessage);
+                    console.log(errorCode + errorMessage)
+                });
+        }
+
+
     }
+
+
     return (
         <div className="overflow-hidden flex justify-center">
 
@@ -42,19 +88,20 @@ const Login = () => {
 
                     {
                         isSignInForm &&
-                       <div>
-                         <input
-                            ref={name}
-                            type="text"
-                            placeholder="Full Name"
-                            className="border-none rounded  p-3 my-5 bg-[#333] text-[#8c8c8c] focus:outline-none w-full"
-                        />
-                        <span className="absolute top-48 left-20 text-sm text-red-700">{nameError}</span>
-                       </div>
+                        <div>
+                            <input
+                                ref={name}
+                                type="text"
+                                placeholder="Full Name"
+                                className="border-none rounded  p-3 my-5 bg-[#333] text-[#8c8c8c] focus:outline-none w-full"
+                            />
+                            <span className="absolute top-48 left-20 text-sm text-red-700">{nameError}</span>
+                        </div>
 
                     }
 
                     <input
+                        ref={email}
                         type="email"
                         placeholder="Email or phone number"
                         className="border-none rounded  p-3 my-5 bg-[#333] text-[#8c8c8c] focus:outline-none" />
