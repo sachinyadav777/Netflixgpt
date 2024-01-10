@@ -150,7 +150,7 @@ const Login = () => {
                     Sign in is protected by Google reCAPTCHA to ensure you’re not a bot.
                     <button
                         className="text-[#0071eb] hover:underline"
-                        onClick={() => setopacity(1)} >
+                        onClick={() => setopacity(5)} >
                         {capcha}
                     </button>
                 </p>
